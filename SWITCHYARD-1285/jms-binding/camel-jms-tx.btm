@@ -1,0 +1,244 @@
+########################################################################################
+# TransactionHandler
+########################################################################################
+RULE camel-jms-tx trace thstart
+     CLASS org.switchyard.handlers.TransactionHandler
+     METHOD startTransaction(org.switchyard.Exchange)
+     HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+     AT EXIT
+     IF TRUE
+     DO traceHandlerStartTx($0)
+ENDRULE
+
+RULE camel-jms-tx trace thend
+     CLASS org.switchyard.handlers.TransactionHandler
+     METHOD endTransaction()
+     HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+     AT ENTRY
+     IF TRUE
+     DO traceHandlerEndTx($0)
+ENDRULE
+
+RULE camel-jms-tx trace thresume
+     CLASS org.switchyard.handlers.TransactionHandler
+     METHOD resumeTransaction(Transaction)
+     HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+     AT ENTRY
+     IF TRUE
+     DO traceHandlerResumeTx($0, $1)
+ENDRULE
+
+RULE camel-jms-tx trace thsuspend
+     CLASS org.switchyard.handlers.TransactionHandler
+     METHOD suspendTransaction(org.switchyard.Exchange)
+     HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+     AT ENTRY
+     IF TRUE
+     DO traceHandlerSuspendTx($0, $1)
+ENDRULE
+
+########################################################################################
+# SwitchYard Exchange
+########################################################################################
+RULE camel-jms-tx trace exsend
+     CLASS org.switchyard.internal.ExchangeImpl
+     METHOD send(Message)
+     HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+     AT ENTRY
+     IF TRUE
+     DO traceExchangeSend($0, $1)
+ENDRULE
+
+
+########################################################################################
+# HornetQ
+########################################################################################
+RULE camel-jms-tx trace hqcreateconnection
+     CLASS org.hornetq.jms.client.HornetQConnectionFactory
+     METHOD createConnection()
+     HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+     AT ENTRY
+     IF TRUE
+     DO traceHQCreateConnection($0)
+ENDRULE
+
+RULE camel-jms-tx trace hqcreateconnection1
+     CLASS org.hornetq.jms.client.HornetQConnectionFactory
+     METHOD createConnection(String,String)
+     HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+     AT ENTRY
+     IF TRUE
+     DO traceHQCreateConnection($0)
+ENDRULE
+
+RULE camel-jms-tx trace hqracreateconnection
+     CLASS org.hornetq.ra.HornetQRAConnectionFactoryImpl
+     METHOD createConnection()
+     HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+     AT ENTRY
+     IF TRUE
+     DO traceHQRACreateConnection($0)
+ENDRULE
+
+RULE camel-jms-tx trace hqracreateconnection1
+     CLASS org.hornetq.ra.HornetQRAConnectionFactoryImpl
+     METHOD createConnection(String,String)
+     HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+     AT ENTRY
+     IF TRUE
+     DO traceHQRACreateConnection($0)
+ENDRULE
+
+RULE camel-jms-tx trace hqmcgetconnection
+     CLASS org.hornetq.ra.HornetQRAManagedConnection
+     METHOD getConnection(Subject,ConnectionRequestInfo)
+     HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+     AT ENTRY
+     IF TRUE
+     DO traceHQMCGetConnection($0, $1, $2)
+ENDRULE
+
+########################################################################################
+# TransactionImple
+########################################################################################
+RULE camel-jms-tx trace txcommit
+     CLASS com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionImple
+     METHOD commit()
+     HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+     AT ENTRY
+     IF TRUE
+     DO traceTransactionCommit($0)
+ENDRULE
+
+RULE camel-jms-tx trace txrollback
+     CLASS com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionImple
+     METHOD rollback()
+     HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+     AT ENTRY
+     IF TRUE
+     DO traceTransactionRollback($0)
+ENDRULE
+
+RULE camel-jms-tx trace txenlistresource
+     CLASS com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionImple
+     METHOD enlistResource(XAResource,Object[])
+     HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+     AT ENTRY
+     IF TRUE
+     DO traceTransactionEnlistResource($0,$1,$2)
+ENDRULE
+
+########################################################################################
+# TransactionManagerImple
+########################################################################################
+RULE camel-jms-tx trace tmbegin
+     CLASS com.arjuna.ats.internal.jta.transaction.arjunacore.BaseTransaction
+     METHOD begin()
+     HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+     AT EXIT
+     IF TRUE
+     DO traceManagerBegin($0)
+ENDRULE
+
+RULE camel-jms-tx trace tmcommit
+     CLASS com.arjuna.ats.internal.jta.transaction.arjunacore.BaseTransaction
+     METHOD commit()
+     HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+     AT ENTRY
+     IF TRUE
+     DO traceManagerCommit($0)
+ENDRULE
+
+RULE camel-jms-tx trace tmrollback
+     CLASS com.arjuna.ats.internal.jta.transaction.arjunacore.BaseTransaction
+     METHOD rollback()
+     HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+     AT ENTRY
+     IF TRUE
+     DO traceManagerRollback($0)
+ENDRULE
+
+RULE camel-jms-tx trace tmsuspend
+     CLASS com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionManagerImple
+     METHOD suspend()
+     HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+     AT ENTRY
+     IF TRUE
+     DO traceManagerSuspend($0)
+ENDRULE
+
+RULE camel-jms-tx trace tmresume
+     CLASS com.arjuna.ats.internal.jta.transaction.arjunacore.TransactionManagerImple
+     METHOD resume(Transaction)
+     HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+     AT ENTRY
+     IF TRUE
+     DO traceManagerResume($0, $1)
+ENDRULE
+
+########################################################################################
+# AtomicAction
+########################################################################################
+# RULE camel-jms-tx trace resume
+#      CLASS com.arjuna.ats.arjuna.AtomicAction
+#      METHOD resume(AtomicAction)
+#      HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+#      AT ENTRY
+#      IF TRUE
+#      DO traceAtomicActionResume($1)
+# ENDRULE
+
+# RULE camel-jms-tx trace suspend 
+#      CLASS com.arjuna.ats.arjuna.AtomicAction
+#      METHOD suspend()
+#      HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+#      AT EXIT
+#      IF TRUE
+#      DO traceAtomicActionSuspend($!)
+# ENDRULE
+
+# RULE camel-jms-tx trace begin
+#      CLASS com.arjuna.ats.arjuna.AtomicAction
+#      METHOD begin(int)
+#      HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+#      AT EXIT
+#      IF TRUE
+#      DO traceAtomicActionBegin($0)
+# ENDRULE
+
+# RULE camel-jms-tx trace commit
+#      CLASS com.arjuna.ats.arjuna.AtomicAction
+#      METHOD commit(boolean)
+#      HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+#      AT ENTRY
+#      IF TRUE
+# DO traceAtomicAction($0, "commit()")
+
+# RULE camel-jms-tx trace commit-return
+#      CLASS com.arjuna.ats.arjuna.AtomicAction
+#      METHOD commit(boolean)
+#      HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+#      AT EXIT
+#      IF TRUE
+#      DO print("commit() returns " + new Integer($!))
+# ENDRULE
+
+# RULE camel-jms-tx trace end
+#      CLASS com.arjuna.ats.arjuna.AtomicAction
+#      METHOD end(boolean)
+#      HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+#      AT ENTRY
+#      IF TRUE
+#      DO traceAtomicAction($0, "end()")
+# ENDRULE
+
+# RULE camel-jms-tx trace end-return
+#      CLASS com.arjuna.ats.arjuna.AtomicAction
+#      METHOD end(boolean)
+#      HELPER org.switchyard.quickstarts.camel.jms.binding.BytemanHelper
+#      AT EXIT
+#      IF TRUE
+#      DO print("end() returns " + new Integer($!))
+# ENDRULE
+
+
