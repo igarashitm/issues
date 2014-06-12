@@ -1,0 +1,59 @@
+             <resource-adapters>
+                <resource-adapter id="activemq-ra.rar">
+                    <archive>
+                        activemq-ra.rar
+                    </archive>
+                    <transaction-support>XATransaction</transaction-support>
+                    <config-property name="ServerUrl">
+                        tcp://127.0.0.1:61616
+                    </config-property>
+                    <connection-definitions>
+                        <connection-definition class-name="org.apache.activemq.ra.ActiveMQManagedConnectionFactory" jndi-name="java:/activemq/JmsXAIn" pool-name="JmsXAIn">
+                            <xa-pool>
+                                <min-pool-size>1</min-pool-size>
+                                <max-pool-size>20</max-pool-size>
+                            </xa-pool>
+                        </connection-definition>
+                        <connection-definition class-name="org.apache.activemq.ra.ActiveMQManagedConnectionFactory" jndi-name="java:/activemq/JmsXAInJca" pool-name="JmsXAInJca">
+                            <xa-pool>
+                                <min-pool-size>1</min-pool-size>
+                                <max-pool-size>20</max-pool-size>
+                            </xa-pool>
+                        </connection-definition>
+                        <connection-definition class-name="org.apache.activemq.ra.ActiveMQManagedConnectionFactory" jndi-name="java:/activemq/JmsXAOut" pool-name="JmsXAOut">
+                            <xa-pool>
+                                <min-pool-size>1</min-pool-size>
+                                <max-pool-size>20</max-pool-size>
+                            </xa-pool>
+                        </connection-definition>
+                        <connection-definition class-name="org.apache.activemq.ra.ActiveMQManagedConnectionFactory" jndi-name="java:/activemq/JmsXAOutJca" pool-name="JmsXAOutJca">
+                            <xa-pool>
+                                <min-pool-size>1</min-pool-size>
+                                <max-pool-size>20</max-pool-size>
+                            </xa-pool>
+                        </connection-definition>
+                    </connection-definitions>
+                    <admin-objects>
+                        <admin-object class-name="org.apache.activemq.command.ActiveMQQueue" jndi-name="java:/activemq/InboundQueue" pool-name="InboundQueue">
+                            <config-property name="PhysicalName">
+                                InboundQueue
+                            </config-property>
+                        </admin-object>
+                        <admin-object class-name="org.apache.activemq.command.ActiveMQQueue" jndi-name="java:/activemq/InboundQueueJca" pool-name="InboundQueueJca">
+                            <config-property name="PhysicalName">
+                                InboundQueueJca
+                            </config-property>
+                        </admin-object>
+                        <admin-object class-name="org.apache.activemq.command.ActiveMQQueue" jndi-name="java:/activemq/OutboundQueue" pool-name="OutboundQueue">
+                            <config-property name="PhysicalName">
+                                OutboundQueue
+                            </config-property>
+                        </admin-object>
+                        <admin-object class-name="org.apache.activemq.command.ActiveMQQueue" jndi-name="java:/activemq/OutboundQueueJca" pool-name="OutboundQueueJca">
+                            <config-property name="PhysicalName">
+                                OutboundQueueJca
+                            </config-property>
+                        </admin-object>
+                    </admin-objects>
+                </resource-adapter>
+            </resource-adapters>

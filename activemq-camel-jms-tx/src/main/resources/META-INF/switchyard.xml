@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sy:switchyard xmlns:bean="urn:switchyard-component-bean:config:1.1" xmlns:jca="urn:switchyard-component-jca:config:1.1" xmlns:jms="urn:switchyard-component-camel-jms:config:1.1" xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912" xmlns:sy="urn:switchyard-config:switchyard:1.1" name="switchyard-example" targetNamespace="urn:com.example.switchyard:switchyard-example:1.0">
+  <sca:composite name="switchyard-example" targetNamespace="urn:com.example.switchyard:switchyard-example:1.0">
+    <sca:component name="GreetingServiceBean">
+      <bean:implementation.bean requires="managedTransaction.Global" class="com.example.switchyard.switchyard_example.GreetingServiceBean"/>
+      <sca:service name="GreetingService" requires="propagatesTransaction">
+        <sca:interface.java interface="com.example.switchyard.switchyard_example.GreetingService"/>
+      </sca:service>
+      <sca:reference name="ReferenceGreetingService" requires="suspendsTransaction">
+        <sca:interface.java interface="com.example.switchyard.switchyard_example.GreetingService"/>
+      </sca:reference>
+      <sca:reference name="ReferenceGreetingServiceJca" requires="suspendsTransaction">
+        <sca:interface.java interface="com.example.switchyard.switchyard_example.GreetingService"/>
+      </sca:reference>
+      <sca:reference name="RollbackService" requires="propagatesTransaction">
+        <sca:interface.java interface="com.example.switchyard.switchyard_example.RollbackService"/>
+      </sca:reference>
+    </sca:component>
+    <sca:service name="GreetingService" promote="GreetingServiceBean/GreetingService">
+      <sca:interface.java interface="com.example.switchyard.switchyard_example.GreetingService"/>
+      <jms:binding.jms name="jms1">
+        <jms:queue>InboundQueue</jms:queue>
+        <jms:connectionFactory>#activemq/JmsXAIn</jms:connectionFactory>
+        <jms:transacted>true</jms:transacted>
+        <jms:transactionManager>#jtaTransactionManager</jms:transactionManager>
+      </jms:binding.jms>
+      <jca:binding.jca name="jca1">
+        <jca:inboundConnection>
+          <jca:resourceAdapter name="activemq-ra.rar"/>
+          <jca:activationSpec>
+            <jca:property name="destination" value="InboundQueueJca"/>
+            <jca:property name="destinationType" value="javax.jms.Queue"/>
+          </jca:activationSpec>
+        </jca:inboundConnection>
+        <jca:inboundInteraction>
+          <jca:listener>javax.jms.MessageListener</jca:listener>
+          <jca:endpoint type="org.switchyard.component.jca.endpoint.JMSEndpoint"/>
+          <jca:transacted>true</jca:transacted>
+        </jca:inboundInteraction>
+      </jca:binding.jca>
+    </sca:service>
+    <sca:reference name="ReferenceGreetingService" multiplicity="0..1" promote="GreetingServiceBean/ReferenceGreetingService">
+      <sca:interface.java interface="com.example.switchyard.switchyard_example.GreetingService"/>
+      <jms:binding.jms name="jms1">
+        <jms:queue>OutboundQueue</jms:queue>
+        <jms:connectionFactory>#activemq/JmsXAOut</jms:connectionFactory>
+        <jms:transacted>false</jms:transacted>
+        <jms:transactionManager>#jtaTransactionManager</jms:transactionManager>
+      </jms:binding.jms>
+    </sca:reference>
+    <sca:component name="RollbackServiceBean">
+      <bean:implementation.bean class="com.example.switchyard.switchyard_example.RollbackServiceBean"/>
+      <sca:service name="RollbackService" requires="propagatesTransaction">
+        <sca:interface.java interface="com.example.switchyard.switchyard_example.RollbackService"/>
+      </sca:service>
+    </sca:component>
+    <sca:reference name="ReferenceGreetingServiceJca" multiplicity="0..1" promote="GreetingServiceBean/ReferenceGreetingServiceJca">
+      <sca:interface.java interface="com.example.switchyard.switchyard_example.GreetingService"/>
+      <jca:binding.jca name="jca1">
+        <jca:outboundConnection>
+          <jca:resourceAdapter name="activemq-ra.rar"/>
+          <jca:connection jndiName="java:/activemq/JmsXAOutJca"/>
+        </jca:outboundConnection>
+        <jca:outboundInteraction>
+          <jca:processor type="org.switchyard.component.jca.processor.JMSProcessor">
+            <jca:property name="destination" value="activemq/OutboundQueueJca"/>
+          </jca:processor>
+        </jca:outboundInteraction>
+      </jca:binding.jca>
+    </sca:reference>
+  </sca:composite>
+  <sy:domain>
+<!--
+    <sy:properties>
+      <sy:property name="org.switchyard.handlers.messageTrace.enabled" value="true"/>
+    </sy:properties>
+-->
+  </sy:domain>
+</sy:switchyard>

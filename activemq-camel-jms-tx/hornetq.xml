@@ -1,0 +1,52 @@
+                    <pooled-connection-factory name="hornetq-ra-in">
+                        <transaction mode="xa"/>
+                        <connectors>
+                            <connector-ref connector-name="in-vm"/>
+                        </connectors>
+                        <entries>
+                            <entry name="java:/hornetq/JmsXAIn"/>
+                        </entries>
+                    </pooled-connection-factory>
+                    <pooled-connection-factory name="hornetq-ra-in-jca">
+                        <transaction mode="xa"/>
+                        <connectors>
+                            <connector-ref connector-name="in-vm"/>
+                        </connectors>
+                        <entries>
+                            <entry name="java:/hornetq/JmsXAInJca"/>
+                        </entries>
+                    </pooled-connection-factory>
+                    <pooled-connection-factory name="hornetq-ra-out">
+                        <transaction mode="xa"/>
+                        <connectors>
+                            <connector-ref connector-name="in-vm"/>
+                        </connectors>
+                        <entries>
+                            <entry name="java:/hornetq/JmsXAOut"/>
+                        </entries>
+                    </pooled-connection-factory>
+                    <pooled-connection-factory name="hornetq-ra-out-jca">
+                        <transaction mode="xa"/>
+                        <connectors>
+                            <connector-ref connector-name="in-vm"/>
+                        </connectors>
+                        <entries>
+                            <entry name="java:/hornetq/JmsXAOutJca"/>
+                        </entries>
+                    </pooled-connection-factory>
+                </jms-connection-factories>
+
+                <jms-destinations>
+                    <jms-queue name="InboundQueue">
+                        <entry name="hornetq/InboundQueue"/>
+                    </jms-queue>
+                    <jms-queue name="InboundQueueJca">
+                        <entry name="hornetq/InboundQueueJca"/>
+                    </jms-queue>
+                    <jms-queue name="OutboundQueue">
+                        <entry name="hornetq/OutboundQueue"/>
+                    </jms-queue>
+                    <jms-queue name="OutboundQueueJca">
+                        <entry name="hornetq/OutboundQueueJca"/>
+                    </jms-queue>
+                </jms-destinations>
