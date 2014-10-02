@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="ASCII"?>
-<routes xmlns="http://camel.apache.org/schema/spring">
-  <route>
-    <from uri="switchyard://LogService"/>
-    <log message="LogService - message header (Subject): ${header.Subject}"/>
-    <log message="LogService - message body: ${body}"/>
-  </route>
-</routes>
