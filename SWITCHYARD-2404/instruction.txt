@@ -1,0 +1,16 @@
+
+1. add application user to wildfly with name=guest and password=guestp.1, or change the property in POM as you like
+
+2. start wildfly 8.1.0.Final with standalone-full.xml
+
+3. run mvn clean test-compile exec:java
+
+4. you'll see tons of WARN/INFO messages from netty:
+WARNING: Selector.select() returned prematurely 512 times in a row; rebuilding selector.
+Oct 16, 2014 6:34:14 PM io.netty.channel.nio.NioEventLoop rebuildSelector
+INFO: Migrated 0 channel(s) to the new Selector.
+Oct 16, 2014 6:34:14 PM io.netty.channel.nio.NioEventLoop select
+WARNING: Selector.select() returned prematurely 512 times in a row; rebuilding selector.
+Oct 16, 2014 6:34:14 PM io.netty.channel.nio.NioEventLoop rebuildSelector
+INFO: Migrated 0 channel(s) to the new Selector.
+(...repeating...)
