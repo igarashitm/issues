@@ -1,0 +1,37 @@
+if (outcome != success) of /extension=org.jboss.as.xts:read-resource
+    /extension=org.jboss.as.xts:add
+end-if
+/extension=org.jboss.as.xts:read-resource
+
+if (outcome != success) of /subsystem=xts:read-resource
+    /subsystem=xts:add(url="http://${jboss.bind.address:127.0.0.1}:8080/ws-c11/ActivationService")
+end-if
+/subsystem=switchyard/module=org.switchyard.component.bpel:write-attribute(name=properties, value={bpel.xts.enable => true})
+/subsystem=xts:read-resource
+
+if (outcome != success) of /subsystem=messaging/hornetq-server=default/jms-queue=InQueue:read-resource
+    jms-queue add --queue-address=InQueue --entries=InQueue
+end-if
+/subsystem=messaging/hornetq-server=default/jms-queue=InQueue:read-resource
+
+if (outcome != success) of /subsystem=messaging/hornetq-server=default/jms-queue=OutQueue:read-resource
+    jms-queue add --queue-address=OutQueue --entries=OutQueue
+end-if
+/subsystem=messaging/hornetq-server=default/jms-queue=OutQueue:read-resource
+
+if (outcome != success) of /subsystem=datasources/jdbc-driver=postgresql:read-resource
+    /subsystem=datasources/jdbc-driver=postgresql:add(driver-name=postgresql,driver-module-name=org.postgresql.jdbc,driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource)
+end-if
+/subsystem=datasources/jdbc-driver=postgresql:read-resource
+
+if (outcome != success) of /subsystem=datasources/xa-data-source=H2XADS:read-resource
+    xa-data-source add --name=PGXADS --driver-name=postgresql --jndi-name=java:jboss/datasources/PGXADS --user-name=sa --password=sa --recovery-username=sa --recovery-password=sa --min-pool-size=10 --max-pool-size=10 --use-java-context=true
+    /subsystem=datasources/xa-data-source=PGXADS/xa-datasource-properties=ServerName:add(value=127.0.0.1)
+    /subsystem=datasources/xa-data-source=PGXADS/xa-datasource-properties=PortNumber:add(value=5432)
+    /subsystem=datasources/xa-data-source=PGXADS/xa-datasource-properties=DatabaseName:add(value=dealer)
+    xa-data-source enable --name=PGXADS
+end-if
+/subsystem=datasources/xa-data-source=PGXADS:read-resource
+
+# reload causes ISE from recovery due to BZ1032641. Restart EAP instance manually.
+# :reload

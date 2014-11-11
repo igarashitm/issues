@@ -1,0 +1,18 @@
+if (outcome == success) of /subsystem=xts:read-resource
+    /subsystem=xts:remove
+end-if
+if (outcome == success) of /extension=org.jboss.as.xts:read-resource
+    /extension=org.jboss.as.xts:remove
+end-if
+/subsystem=switchyard/module=org.switchyard.component.bpel:undefine-attribute(name=properties)
+if (outcome == success) of /subsystem=messaging/hornetq-server=default/jms-queue=InQueue:read-resource
+    jms-queue remove --queue-address=InQueue
+end-if
+if (outcome == success) of /subsystem=messaging/hornetq-server=default/jms-queue=OutQueue:read-resource
+    jms-queue remove --queue-address=OutQueue
+end-if
+if (outcome == success) of /subsystem=datasources/xa-data-source=PGXADS:read-resource
+    xa-data-source disable --name=PGXADS
+    xa-data-source remove --name=PGXADS
+end-if
+:reload

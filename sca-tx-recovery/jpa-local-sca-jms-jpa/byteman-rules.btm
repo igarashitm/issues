@@ -1,0 +1,33 @@
+RULE ### Trace XAResource.prepare()
+INTERFACE javax.transaction.xa.XAResource
+METHOD prepare(Xid)
+AT ENTRY
+IF TRUE
+DO traceln("********* Entering XAResource.prepare(): " + $0);
+ENDRULE
+
+RULE ### Trace XAResource.commit()
+INTERFACE javax.transaction.xa.XAResource
+METHOD commit(Xid,boolean)
+AT ENTRY
+IF TRUE
+DO traceln("********* Entering XAResource.commit(): " + $0);
+ENDRULE
+
+RULE ### Trace phase1 commit (BasicAction.prepare(boolean))
+CLASS com.arjuna.ats.arjuna.coordinator.BasicAction
+METHOD prepare(boolean)
+AT ENTRY
+IF TRUE
+DO traceln("********* Entering phase1 commit: " + $0);
+ENDRULE
+
+RULE ### Terminate before phase2 commit
+CLASS com.arjuna.ats.arjuna.coordinator.BasicAction
+METHOD phase2Commit(boolean)
+AT ENTRY
+IF TRUE
+DO traceln("********* Aborting JVM right before XA phase 2 commit: " + $0);
+   killJVM()
+ENDRULE
+
