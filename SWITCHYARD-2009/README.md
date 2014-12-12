@@ -1,4 +1,4 @@
-# Cluster Demo Quickstart
+# Test application for SWITCHYARD-2009 
 
 This quickstart provides an example of deploying a set of applications containing a clustered service in SwitchYard.  The quickstart consists of the following pieces:
 
@@ -6,7 +6,7 @@ This quickstart provides an example of deploying a set of applications containin
 * credit : a clustered decision service implemented in Drools.  
 * client : the test driver for the application which can be used to send a request payload to the Dealer Service
 
-The purpose of the quickstart is to demonstrate how the credit service can be clustered by deploying to a group of SwitchYard instances.  
+The purpose of the quickstart is to demonstrate how the credit service can be clustered by deploying to a group of SwitchYard instances. Note that preferLocal=true is specified on the SCA reference binding of CreditCheck in the DealerBean component. CreditCheck service is always invoked on local node with this setting. 
 
 ## Running the Example
 

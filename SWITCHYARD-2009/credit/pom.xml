@@ -79,6 +79,12 @@
             <groupId>org.switchyard.components</groupId>
             <artifactId>switchyard-component-sca</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.igarashitm.switchyard-issues</groupId>
+            <artifactId>SWITCHYARD-2009-common</artifactId>
+            <scope>provided</scope>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>${project.artifactId}</finalName>
@@ -106,7 +112,7 @@
                 <version>${version.felix.maven}</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <excludeDependencies>false</excludeDependencies>
+                    <excludeDependencies>SWITCHYARD-2009-common</excludeDependencies>
                     <instructions>
                         <Bundle-SymbolicName>${bundle.symbolic.name}</Bundle-SymbolicName>
                         <DynamicImport-Package>${switchyard.osgi.dynamic}</DynamicImport-Package>

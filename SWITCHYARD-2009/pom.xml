@@ -50,6 +50,7 @@
         <version.wildfly.maven>1.0.2.Final</version.wildfly.maven>
     </properties>
     <modules>
+        <module>common</module>
         <module>client</module>
         <module>credit</module>
         <module>dealer</module>

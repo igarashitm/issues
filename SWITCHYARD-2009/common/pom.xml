@@ -19,10 +19,10 @@
         <artifactId>SWITCHYARD-2009</artifactId>
         <version>2.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>SWITCHYARD-2009-dealer</artifactId>
+    <artifactId>SWITCHYARD-2009-common</artifactId>
     <packaging>bundle</packaging>
-    <name>SWITCHYARD-2009 - Dealer Service</name>
-    <description>SWITCHYARD-2009 - Dealer Service</description>
+    <name>SWITCHYARD-2009 - Common</name>
+    <description>SWITCHYARD-2009 - Common</description>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -32,10 +32,7 @@
     </licenses>
     <properties>
         <!-- Bundle symbolic name may not contain dashes -->
-        <bundle.symbolic.name>${project.groupId}.switchyard.demo.cluster.dealer</bundle.symbolic.name>
-
-        <deploy.skip>true</deploy.skip>
-        <wildfly.port>9999</wildfly.port>
+        <bundle.symbolic.name>${project.groupId}.switchyard.demo.cluster.common</bundle.symbolic.name>
         <switchyard.osgi.import>*</switchyard.osgi.import>
         <switchyard.osgi.require.capability>
             org.ops4j.pax.cdi.extension; filter:="(extension=switchyard-component-bean)",
@@ -45,78 +42,25 @@
         <switchyard.osgi.dynamic>
             org.switchyard,org.switchyard.*
         </switchyard.osgi.dynamic>
+
+        <deploy.skip>true</deploy.skip>
     </properties>
-    <dependencies>
-        <dependency>
-            <groupId>com.github.igarashitm.switchyard-issues</groupId>
-            <artifactId>SWITCHYARD-2009-common</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.switchyard</groupId>
-            <artifactId>switchyard-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.switchyard</groupId>
-            <artifactId>switchyard-transform</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.switchyard</groupId>
-            <artifactId>switchyard-validate</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.switchyard.components</groupId>
-            <artifactId>switchyard-component-bean</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.switchyard.components</groupId>
-            <artifactId>switchyard-component-sca</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.switchyard</groupId>
-            <artifactId>switchyard-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.switchyard.components</groupId>
-            <artifactId>switchyard-component-test-mixin-cdi</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+    <dependencies/>
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
-            <plugin>
-                <groupId>org.switchyard</groupId>
-                <artifactId>switchyard-plugin</artifactId>
-                <version>${project.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>configure</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <scannerClassNames>
-                        <param>org.switchyard.transform.config.model.TransformSwitchYardScanner</param>
-                    </scannerClassNames>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
                 <version>${version.felix.maven}</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <excludeDependencies>SWITCHYARD-2009-common</excludeDependencies>
+                    <excludeDependencies>false</excludeDependencies>
                     <instructions>
                         <Bundle-SymbolicName>${bundle.symbolic.name}</Bundle-SymbolicName>
                         <DynamicImport-Package>${switchyard.osgi.dynamic}</DynamicImport-Package>
                         <Embed-Dependency>!*</Embed-Dependency>
                         <Import-Package>${switchyard.osgi.import}</Import-Package>
-                        <Include-Resource>{maven-resources}, META-INF/switchyard.xml=target/classes/META-INF/switchyard.xml</Include-Resource>
                         <Require-Capability>${switchyard.osgi.require.capability}</Require-Capability>
                     </instructions>
                     <archive>
@@ -140,6 +84,21 @@
                             <goal>deploy-only</goal>
                         </goals>
                         <configuration>
+                            <port>10999</port>
+                            <protocol>remote</protocol>
+                            <filename>${project.build.finalName}.jar</filename>
+                            <skip>${deploy.skip}</skip>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>deploy2</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>deploy-only</goal>
+                        </goals>
+                        <configuration>
+                            <port>9999</port>
+                            <protocol>remote</protocol>
                             <filename>${project.build.finalName}.jar</filename>
                             <skip>${deploy.skip}</skip>
                         </configuration>
@@ -151,6 +110,21 @@
                             <goal>undeploy</goal>
                         </goals>
                         <configuration>
+                            <port>10999</port>
+                            <protocol>remote</protocol>
+                            <filename>${project.build.finalName}.jar</filename>
+                            <skip>${deploy.skip}</skip>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>undeploy2</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>undeploy</goal>
+                        </goals>
+                        <configuration>
+                            <port>9999</port>
+                            <protocol>remote</protocol>
                             <filename>${project.build.finalName}.jar</filename>
                             <skip>${deploy.skip}</skip>
                         </configuration>
@@ -172,12 +146,6 @@
             <id>deploy</id>
             <properties>
                 <deploy.skip>false</deploy.skip>
-            </properties>
-        </profile>
-        <profile>
-            <id>wildfly</id>
-            <properties>
-                <wildfly.port>9990</wildfly.port>
             </properties>
         </profile>
     </profiles>

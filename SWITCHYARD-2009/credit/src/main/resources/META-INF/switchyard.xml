@@ -18,8 +18,9 @@
 <switchyard xmlns="urn:switchyard-config:switchyard:1.0" xmlns:sy="urn:switchyard-config:switchyard:1.0" xmlns:rules="urn:switchyard-component-rules:config:1.0" xmlns:bean="urn:switchyard-component-bean:config:1.0" xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912" name="switchyard-quickstart-demo-cluster-credit" targetNamespace="urn:switchyard-quickstart-demo-cluster-credit:1.0">
   <sca:composite name="switchyard-quickstart-demo-cluster-credit" targetNamespace="urn:switchyard-quickstart-demo-cluster-credit:1.0">
     <sca:component name="RulesComponent">
-    <bean:implementation.bean class="org.switchyard.quickstarts.demo.cluster.CreditCheckBean"/>
 <!--
+        <bean:implementation.bean class="org.switchyard.quickstarts.demo.cluster.CreditCheckBean"/>
+-->
       <rules:implementation.rules>
         <rules:manifest>
           <rules:resources>
@@ -34,7 +35,6 @@
           </rules:operation>
         </rules:operations>
       </rules:implementation.rules>
--->
       <sca:service name="CreditCheck">
         <sca:interface.java interface="org.switchyard.quickstarts.demo.cluster.CreditCheck"/>
       </sca:service>
