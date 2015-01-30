@@ -54,6 +54,8 @@ public final class CamelServiceClient {
 
         // Invoke the service
         RemoteMessage out = invoker.invoke(message);
-        System.out.println("Response: " + out.getContent());
+        if (out != null) {
+            System.out.println("Response: " + out.getContent());
+        }
     }
 }

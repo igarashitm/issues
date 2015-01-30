@@ -27,6 +27,7 @@
     </sca:component>
     <sca:service name="CamelService" promote="CamelComponent/CamelService">
       <sca:interface.java interface="org.switchyard.quickstarts.camel.service.CamelService"/>
+      <sca:binding.sca name="sca1"/>
     </sca:service>
   </sca:composite>
 </switchyard>
