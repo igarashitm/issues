@@ -257,7 +257,7 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <archive>
                         <manifestEntries>
-                            <Dependencies>org.apache.camel.core, org.apache.camel.bindy</Dependencies>
+                            <Dependencies>org.apache.camel.core, org.apache.camel.component.bindy</Dependencies>
                         </manifestEntries>
                     </archive>
                     <skinnyWars>true</skinnyWars>
