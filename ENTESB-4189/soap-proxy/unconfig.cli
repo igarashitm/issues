@@ -1,0 +1,6 @@
+if (outcome == success) of /subsystem=web/connector=https/:read-resource
+    /subsystem=web/connector=https/:remove
+end-if
+if (outcome == success) of /subsystem=security/security-domain=my-security-domain:read-resource
+    /subsystem=security/security-domain=my-security-domain:remove
+end-if
