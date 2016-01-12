@@ -41,19 +41,28 @@ public final class WorkServiceMainSCA {
             + "    <wsse:Password Type=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText\">the-frog-1</wsse:Password>\n"
             + "  </wsse:UsernameToken>\n"
             + "</wsse:Security>";
+    private static final QName WS_SECURITY_QNAME = new QName("http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd", "Security");
 
     public static void main(String... args) throws Exception {
+        WorkServiceMainSCA myself = new WorkServiceMainSCA();
+        myself.invoke(HttpInvoker.WS_SECURITY);
+        myself.invoke(WS_SECURITY_QNAME);
+        myself.invoke(WS_SECURITY_QNAME.toString());
+    }
+
+    public void invoke(Object seckey) throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         Document doc = factory.newDocumentBuilder().parse(new InputSource(new StringReader(WS_SECURITY_HEADER)));
         HttpInvoker invoker = new HttpInvoker(URL);
-        invoker.setProperty(HttpInvoker.WS_SECURITY, doc.getDocumentElement());
+        invoker.setProperty(seckey, doc.getDocumentElement());
         Work work = new Work();
         work.setCommand("WORK_CMD");
         RemoteMessage request = new RemoteMessage()
                                         .setService(SERVICE)
                                         .setOperation("doWork")
                                         .setContent(work);
+        LOGGER.info("Invoking remote SCA service with '"+ seckey + "' as a WS-Security property key...");
         RemoteMessage reply = invoker.invoke(request);
         if (reply.isFault()) {
             if (reply.getContent() instanceof Throwable) {
@@ -64,6 +73,6 @@ public final class WorkServiceMainSCA {
         } else {
             LOGGER.info(reply.getContent());
         }
+        
     }
-
 }
