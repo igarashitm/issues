@@ -11,6 +11,7 @@
           <_1:interceptor class="org.jboss.wsf.stack.cxf.security.authentication.SubjectCreatingPolicyInterceptor"/>
         </_1:inInterceptors>
       </_1:binding.soap>
+      <sca:binding.sca name="sca1"/>
     </sca:service>
     <sca:component name="WorkService">
       <_2:implementation.bean requires="authorization" class="org.switchyard.quickstarts.demo.policy.security.wss.username.WorkServiceBean"/>
@@ -18,10 +19,6 @@
         <sca:interface.java interface="org.switchyard.quickstarts.demo.policy.security.wss.username.WorkService"/>
       </sca:service>
     </sca:component>
-    <sca:service name="WorkServiceSCA" promote="WorkService/WorkService">
-      <sca:interface.java interface="org.switchyard.quickstarts.demo.policy.security.wss.username.WorkService"/>
-      <sca:binding.sca name="sca1"/>
-    </sca:service>
   </sca:composite>
   <transforms>
     <_3:transform.java from="java:org.switchyard.quickstarts.demo.policy.security.wss.username.WorkAck" to="java:org.switchyard.quickstarts.demo.policy.security.wss.username.Work" class="org.switchyard.quickstarts.demo.policy.security.wss.username.Transformers"/>
