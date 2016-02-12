@@ -1,0 +1,4 @@
+/subsystem=transactions/:write-attribute(name=default-timeout,value=300)
+if (outcome == success) of /subsystem=messaging/hornetq-server=default/jms-queue=queueA:read-resource
+    jms-queue remove --queue-address=queueA
+end-if

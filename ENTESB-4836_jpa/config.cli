@@ -1,0 +1,1 @@
+/subsystem=transactions/:write-attribute(name=default-timeout,value=30)

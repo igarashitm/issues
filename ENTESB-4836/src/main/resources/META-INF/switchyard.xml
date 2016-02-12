@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<switchyard xmlns="urn:switchyard-config:switchyard:1.0" xmlns:_1="urn:switchyard-component-camel-jms:config:1.0" xmlns:_2="urn:switchyard-component-bean:config:1.0" xmlns:file="urn:switchyard-component-camel-file:config:1.0" xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912">
+  <sca:composite name="policy-transaction" targetNamespace="urn:switchyard-quickstart-demo:policy-transaction:0.1.0">
+    <sca:reference name="StoreService" multiplicity="0..1" promote="WorkService/StoreService">
+      <_1:binding.jms name="jms1">
+        <_1:queue>queueA</_1:queue>
+        <_1:connectionFactory>#JmsXA</_1:connectionFactory>
+        <_1:transactionManager>#jtaTransactionManager</_1:transactionManager>
+      </_1:binding.jms>
+    </sca:reference>
+    <sca:component name="WorkService">
+      <_2:implementation.bean requires="managedTransaction.Global" class="org.switchyard.quickstarts.demo.policy.transaction.WorkServiceBean"/>
+      <sca:service name="WorkService" requires="propagatesTransaction">
+        <sca:interface.java interface="org.switchyard.quickstarts.demo.policy.transaction.WorkService"/>
+      </sca:service>
+      <sca:reference name="StoreService" requires="propagatesTransaction">
+        <sca:interface.java interface="org.switchyard.quickstarts.demo.policy.transaction.StoreService"/>
+      </sca:reference>
+    </sca:component>
+    <sca:service name="WorkService" promote="WorkService/WorkService">
+      <sca:interface.java interface="org.switchyard.quickstarts.demo.policy.transaction.WorkService"/>
+      <file:binding.file name="file1">
+        <file:directory>target/input</file:directory>
+        <file:fileName>input.txt</file:fileName>
+        <file:consume>
+          <file:moveFailed>error</file:moveFailed>
+        </file:consume>
+      </file:binding.file>
+    </sca:service>
+  </sca:composite>
+</switchyard>
