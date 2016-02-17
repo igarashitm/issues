@@ -27,10 +27,10 @@ import org.switchyard.component.bean.Service;
 import org.switchyard.quickstarts.camel.jpa.binding.domain.Greet;
 
 /**
- * Implementation of scheduler service.
+ * Implementation of file service.
  */
-@Service(PeriodicService.class)
-public class PeriodicServiceImpl implements PeriodicService {
+@Service(FileService.class)
+public class FileServiceImpl implements FileService {
 
     // some values to populate entity
     private final static String[] NAMES = {
@@ -38,7 +38,7 @@ public class PeriodicServiceImpl implements PeriodicService {
         "Tomo", "Lukasz", "Magesh", "Tom"
     };
 
-    private Logger _logger = Logger.getLogger(PeriodicServiceImpl.class);
+    private Logger _logger = Logger.getLogger(FileServiceImpl.class);
 
     @Inject
     @Reference("StoreReference")

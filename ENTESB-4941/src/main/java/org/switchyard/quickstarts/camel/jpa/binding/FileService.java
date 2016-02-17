@@ -19,7 +19,7 @@ package org.switchyard.quickstarts.camel.jpa.binding;
 /**
  * Interface of service executed by scheduler.
  */
-public interface PeriodicService {
+public interface FileService {
 
     /**
      * Operation executed by quartz thread.

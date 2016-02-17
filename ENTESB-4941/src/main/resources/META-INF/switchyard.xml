@@ -32,26 +32,21 @@
         </jpa:consume>
       </jpa:binding.jpa>
     </sca:service>
-    <sca:service name="PeriodicService" promote="PeriodicService/PeriodicService">
+    <sca:service name="FileService" promote="FileService/FileService">
       <sca:interface.java interface="org.switchyard.quickstarts.camel.jpa.binding.StoreService"/>
-      <!-- 
-      <quartz:binding.quartz>
-        <quartz:name>EveryFiveSecondsJob</quartz:name>
-        <quartz:cron>*/5 * * * * ?</quartz:cron>
-      </quartz:binding.quartz>
-      -->
       <file:binding.file name="file1">
         <file:directory>target/input</file:directory>
         <file:fileName>input.txt</file:fileName>
         <file:consume/>
       </file:binding.file>
     </sca:service>
-    <sca:reference name="StoreReference" multiplicity="0..1" promote="PeriodicService/StoreReference">
+    <sca:reference name="StoreReference" multiplicity="0..1" promote="FileService/StoreReference">
       <sca:interface.java interface="org.switchyard.quickstarts.camel.jpa.binding.StoreService"/>
       <jpa:binding.jpa>
         <jpa:entityClassName>org.switchyard.quickstarts.camel.jpa.binding.domain.Greet</jpa:entityClassName>
         <jpa:persistenceUnit>JpaEvents</jpa:persistenceUnit>
         <jpa:transactionManager>#jtaTransactionManager</jpa:transactionManager>
+        <jpa:produce/>
       </jpa:binding.jpa>
     </sca:reference>
     <sca:component name="GreetingService">
@@ -60,10 +55,10 @@
         <sca:interface.java interface="org.switchyard.quickstarts.camel.jpa.binding.GreetingService"/>
       </sca:service>
     </sca:component>
-    <sca:component name="PeriodicService">
-      <bean:implementation.bean class="org.switchyard.quickstarts.camel.jpa.binding.PeriodicServiceImpl"/>
-      <sca:service name="PeriodicService">
-        <sca:interface.java interface="org.switchyard.quickstarts.camel.jpa.binding.PeriodicService"/>
+    <sca:component name="FileService">
+      <bean:implementation.bean class="org.switchyard.quickstarts.camel.jpa.binding.FileServiceImpl"/>
+      <sca:service name="FileService">
+        <sca:interface.java interface="org.switchyard.quickstarts.camel.jpa.binding.FileService"/>
       </sca:service>
       <sca:reference name="StoreReference">
         <sca:interface.java interface="org.switchyard.quickstarts.camel.jpa.binding.StoreService"/>

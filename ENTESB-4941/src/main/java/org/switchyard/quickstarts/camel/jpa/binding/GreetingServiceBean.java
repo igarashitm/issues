@@ -17,6 +17,8 @@
 package org.switchyard.quickstarts.camel.jpa.binding;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.log4j.Logger;
 import org.switchyard.component.bean.Service;
@@ -34,13 +36,24 @@ public class GreetingServiceBean implements GreetingService {
 
     private static SimpleDateFormat FORMAT = new SimpleDateFormat("HH:mm:ss:SSS");
 
+    private List<Long> _timeoutIDs = new CopyOnWriteArrayList<Long>();
+
     @Override
     public final void greet(final Greet event) {
         _logger.info("Hey " + event.getReceiver() + " please receive greetings from " + event.getSender()
             + " sent at " + FORMAT.format(event.getCreatedAt().getTime()));
-        _logger.info("now waiting 31[secs] for transaction timeout....");
+        
         try {
-            Thread.sleep(31000);
+            synchronized (_timeoutIDs) {
+                if (_timeoutIDs.contains(event.getId())) {
+                    _logger.info("Removing ID=" + event.getId() + " from timeout list and committing this time...");
+                    _timeoutIDs.remove(event.getId());
+                } else {
+                    _timeoutIDs.add(event.getId());
+                    _logger.info("Adding ID=" + event.getId() + " into timeout list and waiting 32secs for transaction timeout...");
+                    Thread.sleep(32000);
+                }
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
