@@ -1,0 +1,7 @@
+1. Add an user 'guest' with password 'guestp.1'
+
+2. Start WildFly
+    $WF_HOME/bin/standalone.sh -c standalone-full.xml
+
+3. Run a JUnit Test
+    mvn clean test
