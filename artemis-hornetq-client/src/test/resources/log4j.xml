@@ -31,9 +31,11 @@
     <logger name="org.jboss.interceptor.util.InterceptionTypeRegistry">
         <level value="ERROR"/>
     </logger>
+<!--
     <logger name="org.hornetq">
         <level value="DEBUG"/>
     </logger>
+-->
 
     <root>
         <level value="INFO"/>

@@ -30,7 +30,7 @@ public class ArtemisStandaloneTest {
     private static final String PASSWD = "guestp.1";
     private static final String QUEUE = "DLQ";
     private static final int NUM_MSG = 5;
-    private static final int NUM_REPEAT = 100;
+    private static final int NUM_REPEAT = 10;
     private long start;
     private EmbeddedJMS _server;
     
