@@ -6,10 +6,10 @@ To run this:
 
 
 ## CxfEndpointConfigurer
-[camel-cxf](http://camel.apache.org/cxf.html) has a nice hook point to configure CXF client/server, CxfEndpointConfigurer. If you have a \@Named CDI bean in the classpath and specify that name for cxfEndpointConfigurer URI parameter, camel-cxf will pick it up on its initialization.
+[camel-cxf](http://camel.apache.org/cxf.html) has a nice hook point to configure CXF client/server, CxfEndpointConfigurer. If you have a @Named CDI bean in the classpath and specify that name for cxfEndpointConfigurer URI parameter, camel-cxf will pick it up on its initialization.
 
 
-#### CxfEndpointConfigurer as a \@Named CDI bean
+#### CxfEndpointConfigurer as a @Named CDI bean
 * [MyExampleCxfEndpointConfigurer](src/main/java/org/switchyard/quickstarts/camel/cxf/MyExampleCxfEndpointConfigurer.java)
 
 
