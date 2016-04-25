@@ -1,0 +1,9 @@
+<features>
+  <feature name="ENTESB-4859" version="${project.version}" resolver="(obr)">
+    <feature version="${project.version}">switchyard-bean</feature>
+    <feature version="${project.version}">switchyard-file</feature>
+    <feature version="${version.org.apache.cxf.features}">cxf</feature>
+    <feature version="${project.version}">switchyard-soap</feature>
+    <bundle>mvn:com.github.igarashitm.issues/ENTESB-4859/${project.version}</bundle>
+  </feature>
+</features>

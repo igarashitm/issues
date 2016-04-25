@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint
+    xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+    xmlns:cxf="http://cxf.apache.org/blueprint/core"
+    default-activation="eager">
+
+    <bean id="myCxfInterceptor" class="org.switchyard.quickstarts.camel.binding.MyCxfInterceptor"/>
+
+    <cxf:bus>
+       <cxf:outInterceptors>
+            <ref component-id="myCxfInterceptor"/>
+        </cxf:outInterceptors>
+    </cxf:bus>
+
+</blueprint>

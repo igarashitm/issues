@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<switchyard xmlns="urn:switchyard-config:switchyard:1.0" xmlns:_1="urn:switchyard-component-bean:config:1.0" xmlns:file="urn:switchyard-component-camel-file:config:1.0" xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912" xmlns:soap="urn:switchyard-component-soap:config:1.0">
+  <sca:composite name="camel-binding" targetNamespace="urn:switchyard-quickstart:camel-binding:0.1.0">
+    <sca:service name="GreetingService" promote="GreetingService/GreetingService">
+      <file:binding.file>
+        <file:directory>target/input</file:directory>
+        <file:fileName>test.txt</file:fileName>
+        <file:consume>
+          <file:initialDelay>10</file:initialDelay>
+          <file:delay>10</file:delay>
+          <file:delete>true</file:delete>
+          <file:moveFailed>failed</file:moveFailed>
+        </file:consume>
+      </file:binding.file>
+    </sca:service>
+    <sca:component name="GreetingService">
+      <_1:implementation.bean class="org.switchyard.quickstarts.camel.binding.GreetingServiceBean"/>
+      <sca:service name="GreetingService">
+        <sca:interface.java interface="org.switchyard.quickstarts.camel.binding.GreetingService"/>
+      </sca:service>
+      <sca:reference name="GreetingReference">
+        <sca:interface.java interface="org.switchyard.quickstarts.camel.binding.GreetingReference"/>
+      </sca:reference>
+    </sca:component>
+    <sca:reference name="GreetingReference" multiplicity="0..1" promote="GreetingService/GreetingReference">
+      <sca:interface.wsdl interface="wsdl/OrderService.wsdl#wsdl.porttype(OrderService)"/>
+      <soap:binding.soap name="soap1">
+        <soap:contextMapper soapHeadersType="VALUE"/>
+        <soap:wsdl>wsdl/OrderService.wsdl</soap:wsdl>
+        <soap:endpointAddress>http://127.0.0.1:8080/ENTESB-4859/OrderService</soap:endpointAddress>
+      </soap:binding.soap>
+    </sca:reference>
+  </sca:composite>
+</switchyard>

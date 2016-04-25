@@ -1,0 +1,19 @@
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.2">
+    <deployment>
+        <dependencies>
+            <module name="org.jboss.as.webservices" services="import" export="true"/>
+            <module name="org.jboss.ws.cxf.jbossws-cxf-client" services="export" export="true"/>
+            <module name="org.apache.cxf.impl" export="true">
+                <imports>
+                    <include path="META-INF"/>
+                    <include path="META-INF/cxf"/>
+                </imports>
+            </module>
+            <module name="org.springframework" export="true">
+                <imports>
+                    <include path="META-INF"/>
+                </imports>
+            </module>
+        </dependencies>
+    </deployment>
+</jboss-deployment-structure>
