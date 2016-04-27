@@ -1,0 +1,99 @@
+<wsdl:definitions
+    name="FaultServiceService"
+    targetNamespace="http://signencrypt.soap.issues.igarashitm.github.com/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:tns="http://signencrypt.soap.issues.igarashitm.github.com/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:ns1="http://schemas.xmlsoap.org/soap/http"
+    xmlns:wsp="http://www.w3.org/ns/ws-policy"
+    xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+  <wsdl:types>
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://signencrypt.soap.issues.igarashitm.github.com/" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://signencrypt.soap.issues.igarashitm.github.com/">
+      <xsd:element name="invoke" nillable="true" type="xsd:anyType"/>
+      <xsd:element name="invokeResponse" nillable="true" type="xsd:anyType"/>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="invoke">
+    <wsdl:part element="tns:invoke" name="invoke"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="invokeResponse">
+    <wsdl:part element="tns:invokeResponse" name="invokeResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="FaultService">
+    <wsdl:operation name="invoke">
+      <wsdl:input message="tns:invoke" name="invoke"></wsdl:input>
+      <wsdl:output message="tns:invokeResponse" name="invokeResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="FaultServiceServiceSoapBinding" type="tns:FaultService">
+    <wsp:PolicyReference URI="#FaultServicePolicy"/>
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="invoke">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="invoke">
+	<soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="invokeResponse">
+	<soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+
+    <wsp:Policy wsu:Id="FaultServicePolicy" xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:AsymmetricBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:InitiatorToken>
+              <wsp:Policy>
+                <sp:X509Token sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+                  <wsp:Policy>
+                    <sp:WssX509V1Token11/>
+                  </wsp:Policy>
+                  </sp:X509Token>
+              </wsp:Policy>
+            </sp:InitiatorToken>
+            <sp:RecipientToken>
+              <wsp:Policy>
+                <sp:X509Token sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/Never">
+                  <wsp:Policy>
+                    <sp:WssX509V1Token11/>
+                  </wsp:Policy>
+                </sp:X509Token>
+              </wsp:Policy>
+            </sp:RecipientToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:TripleDesRsa15/>
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Lax/>
+              </wsp:Policy>
+            </sp:Layout>
+            <sp:SignBeforeEncrypting/>
+          </wsp:Policy>
+        </sp:AsymmetricBinding>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body/>
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body/>
+        </sp:EncryptedParts>
+        <sp:Wss10 xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:MustSupportRefIssuerSerial/>
+          </wsp:Policy>
+        </sp:Wss10>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+
+  <wsdl:service name="FaultServiceService">
+    <wsdl:port binding="tns:FaultServiceServiceSoapBinding" name="FaultServicePort">
+      <soap:address location="http://localhost:8080/soap-signencrypt-fault-2.1.0-SNAPSHOT/FaultService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
