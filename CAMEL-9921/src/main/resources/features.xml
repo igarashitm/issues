@@ -1,0 +1,10 @@
+<features>
+  <feature name="CAMEL-9921" version="${project.version}" resolver="(obr)">
+    <feature version="${version.org.apache.camel}">camel-blueprint</feature>
+    <feature version="${version.org.apache.camel}">camel-core</feature>
+    <feature version="${version.org.apache.camel}">camel-dozer</feature>
+    <feature version="${version.org.apache.camel}">camel-jaxb</feature>
+    <feature version="${version.org.apache.camel}">camel-jackson</feature>
+    <bundle>mvn:com.github.igarashitm.issues/CAMEL-9921/${project.version}</bundle>
+  </feature>
+</features>
