@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<switchyard xmlns="urn:switchyard-config:switchyard:2.0" xmlns:bean="urn:switchyard-component-bean:config:2.0" xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912" xmlns:soap="urn:switchyard-component-soap:config:2.0" name="soap-multiauth" targetNamespace="urn:foo.bar">
+  <sca:composite name="soap-multiauth" targetNamespace="urn:foo.bar">
+    <sca:reference name="Hello1" multiplicity="0..1" promote="WSInvokerServiceBean/Hello1">
+      <sca:interface.wsdl interface="wsdl/Hello.wsdl#wsdl.porttype(Hello)"/>
+      <soap:binding.soap name="soap1">
+        <soap:contextMapper soapHeadersType="VALUE"/>
+        <soap:messageComposer unwrapped="true"/>
+        <soap:wsdl>wsdl/Hello.wsdl</soap:wsdl>
+        <soap:endpointAddress>http://127.0.0.1:18001/Hello</soap:endpointAddress>
+        <soap:basic>
+          <soap:user>user1</soap:user>
+          <soap:password>pass1</soap:password>
+        </soap:basic>
+      </soap:binding.soap>
+    </sca:reference>
+    <sca:reference name="Hello2" multiplicity="0..1" promote="WSInvokerServiceBean/Hello2">
+      <sca:interface.wsdl interface="wsdl/Hello.wsdl#wsdl.porttype(Hello)"/>
+      <soap:binding.soap name="soap1">
+        <soap:contextMapper soapHeadersType="VALUE"/>
+        <soap:messageComposer unwrapped="true"/>
+        <soap:wsdl>wsdl/Hello.wsdl</soap:wsdl>
+        <soap:endpointAddress>http://127.0.0.1:18001/Hello</soap:endpointAddress>
+        <soap:basic>
+          <soap:user>user2</soap:user>
+          <soap:password>pass2</soap:password>
+        </soap:basic>
+      </soap:binding.soap>
+    </sca:reference>
+    <sca:component name="WSInvokerServiceBean">
+      <bean:implementation.bean class="com.github.igarashitm.issues.soap.multiauth.WSInvokerServiceBean"/>
+      <sca:service name="WSInvokerService">
+        <sca:interface.java interface="com.github.igarashitm.issues.soap.multiauth.WSInvokerService"/>
+      </sca:service>
+      <sca:reference name="Hello1">
+        <sca:interface.java interface="com.github.igarashitm.issues.soap.multiauth.HelloService"/>
+      </sca:reference>
+      <sca:reference name="Hello2">
+        <sca:interface.java interface="com.github.igarashitm.issues.soap.multiauth.HelloService"/>
+      </sca:reference>
+    </sca:component>
+  </sca:composite>
+</switchyard>
