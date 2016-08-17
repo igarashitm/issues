@@ -1,0 +1,2 @@
+Bean Property demo
+==================
