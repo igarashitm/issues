@@ -17,6 +17,7 @@
 package org.switchyard.quickstarts.bean.service;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import org.switchyard.component.bean.Property;
 import org.switchyard.component.bean.Reference;
@@ -32,6 +33,7 @@ public class OrderServiceBean implements OrderService {
     @Property(name="prop")
     private String _prop;
 
+    @Transactional
     @Override
     public OrderAck submitOrder(Order order) {
         if (_prop == null) {
