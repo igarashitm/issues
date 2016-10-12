@@ -1,4 +1,4 @@
-switchyard-issues
+issues
 =================
 
-Reproducer or something for the SwitchYard issues
+Reproducer or something for the issues of SwitchYard, Apache Camel and etc
