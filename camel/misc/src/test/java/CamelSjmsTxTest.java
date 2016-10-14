@@ -17,6 +17,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.ServiceStatus;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.component.sjms.SjmsComponent;
 import org.apache.camel.component.sjms.jms.ConnectionFactoryResource;
 import org.apache.camel.impl.DefaultCamelContext;
@@ -34,6 +35,7 @@ public class CamelSjmsTxTest {
     private static final String QUEUE_IN = "test-in";
     private static final String QUEUE_OUT = "test-out";
     private static final int DELAY_KILL = 1900;
+    //private static final int DELAY_KILL = 2400;
     private static final int NUM = 60;
     
     private BrokerService _broker;
@@ -105,8 +107,10 @@ public class CamelSjmsTxTest {
                     .log("Exception!!");
                     
                 from(String.format("sjms:queue:%s?transacted=true&consumerCount=5", QUEUE_IN))
+                //from(String.format("jms:queue:%s?transacted=true&concurrentConsumers=5", QUEUE_IN))
                     .log(String.format("=====> Forwarding a message:[${body}] from '%s' queue to '%s' queue...", QUEUE_IN, QUEUE_OUT))
                     .to(String.format("sjms:queue:%s?transacted=true", QUEUE_OUT))
+                    //.to(String.format("jms:queue:%s?transacted=true", QUEUE_OUT))
                     .log(String.format("=====> Done."));
             }
         };
@@ -115,9 +119,12 @@ public class CamelSjmsTxTest {
             CamelContext context = new DefaultCamelContext();
             ConnectionFactory factory = new ActiveMQConnectionFactory(BROKER_URL);
             ConnectionFactoryResource connResource = new ConnectionFactoryResource(5, factory);
-            SjmsComponent comp = new SjmsComponent();
-            comp.setConnectionResource(connResource);
-            context.addComponent("sjms", comp);
+            SjmsComponent sjmscomp = new SjmsComponent();
+            sjmscomp.setConnectionResource(connResource);
+            context.addComponent("sjms", sjmscomp);
+            JmsComponent jmscomp = new JmsComponent();
+            jmscomp.setConnectionFactory(factory);
+            context.addComponent("jms", jmscomp);
             context.addRoutes(rb);
 
             LOG.info("=====> Starting context");
