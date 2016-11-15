@@ -8,8 +8,6 @@ public class ExpectedBodyReceivedTest extends CamelTestSupport {
     @Test
     public void testBodyIsEqualTo() throws Exception {
         MockEndpoint mock = getMockEndpoint("mock:end");
-        
-        mock.expectedMessageCount(1);
         mock.expectedBodyReceived().body().isEqualTo("wrong input");
         
         template.requestBody("direct:start", "actual input");
@@ -20,8 +18,6 @@ public class ExpectedBodyReceivedTest extends CamelTestSupport {
     @Test
     public void testConstant() throws Exception {
         MockEndpoint mock = getMockEndpoint("mock:end");
-        
-        mock.expectedMessageCount(1);
         mock.expectedBodyReceived().constant("wrong input");
         
         template.requestBody("direct:start", "actual input");
@@ -32,8 +28,6 @@ public class ExpectedBodyReceivedTest extends CamelTestSupport {
     @Test
     public void testExpectedBodies() throws Exception {
         MockEndpoint mock = getMockEndpoint("mock:end");
-        
-        mock.expectedMessageCount(1);
         mock.expectedBodiesReceived("wrong input");
         
         template.requestBody("direct:start", "actual input");
