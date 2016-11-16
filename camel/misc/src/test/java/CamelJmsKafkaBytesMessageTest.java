@@ -101,13 +101,13 @@ public class CamelJmsKafkaBytesMessageTest extends CamelTestSupport {
                 jms.setConnectionFactory(new ActiveMQConnectionFactory(BROKER_URL));
                 from("jms:queue:" + QUEUE_IN)
                     .log(">>>>> 1 >>>>> ${body.getClass.getName}:${body}")
-                    .to("kafka:localhost:9092?topic=jpa-cache" + "&requestRequiredAcks=-1"
+                    .to("kafka:127.0.0.1:9092?topic=jpa-cache" + "&requestRequiredAcks=-1"
                         + "&producerBatchSize=1"
                         + "&serializerClass=org.apache.kafka.common.serialization.ByteArraySerializer"
                         + "&keySerializerClass=org.apache.kafka.common.serialization.ByteArraySerializer")
                     .log(">>>>> 2 >>>>> ${body.getClass.getName}:${body}");
 
-                from("kafka:localhost:9092?topic=jpa-cache&groupId=cache&autoOffsetReset=earliest&consumersCount=1"
+                from("kafka:127.0.0.1:9092?topic=jpa-cache&groupId=cache&autoOffsetReset=earliest&consumersCount=1"
                      + "&valueDeserializer=org.apache.kafka.common.serialization.ByteArrayDeserializer"
                      + "&keyDeserializer=org.apache.kafka.common.serialization.ByteArrayDeserializer"
                      + "&autoCommitIntervalMs=1000&autoCommitEnable=true")
