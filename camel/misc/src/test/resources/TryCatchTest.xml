@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+    ">
+
+    <bean id="exceptionProcessor" class="ExceptionProcessor"/>
+    
+	<camelContext id="try-catch-test" xmlns="http://camel.apache.org/schema/spring">
+		<route>
+			<from uri="direct:start" />
+			<doTry id="_doTry1">
+				<process ref="exceptionProcessor" />
+				<doCatch id="_doCatch1">
+					<exception>java.lang.Exception</exception>
+					<handled>
+						<constant>false</constant>
+					</handled>
+					<log id="route-createpw-jms-request_log10" logName="camel-soap-proxy"
+						loggingLevel="ERROR" message="EXCEPTION thrown: $
+{exception.message}
+" />
+				</doCatch>
+				<doFinally id="_doFinally1">
+					<log id="route-createpw-jms-request_log20" logName="camel-soap-proxy"
+						message="FINALLY BLOACK called!" />
+				</doFinally>
+			</doTry>
+		</route>
+    </camelContext>
+</beans>
