@@ -20,7 +20,6 @@ import kafka.metrics.KafkaMetricsReporter;
 import kafka.server.KafkaConfig;
 import kafka.server.KafkaServer;
 import kafka.server.KafkaServerStartable;
-import kafka.utils.SystemTime$;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.broker.BrokerService;
 import org.apache.camel.RoutesBuilder;

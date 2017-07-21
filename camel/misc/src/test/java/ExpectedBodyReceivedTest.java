@@ -34,6 +34,7 @@ public class ExpectedBodyReceivedTest extends CamelTestSupport {
         
         mock.assertIsNotSatisfied();
     }
+
     @Override
     protected RouteBuilder createRouteBuilder() throws Exception {
         return new RouteBuilder() {
